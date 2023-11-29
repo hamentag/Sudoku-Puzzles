@@ -1,7 +1,26 @@
 // References
-const  EMPTY_CELLS = 51; 
+const  EMPTY_CELLS = 45; 
 const sudokuContainer = document.getElementById('sudoku-container');
 const navigationEl = document.getElementById('navigation');
+
+const btnsDiv =  document.createElement('div'); 
+navigationEl.append(btnsDiv);
+
+const startBtn = document.createElement('button');
+startBtn.classList.add('startBtn');
+startBtn.textContent = 'Start a new puzzle';
+btnsDiv.append(startBtn);
+startBtn.addEventListener('click', () => generateSudoku());
+
+const submitBtn = document.createElement('button');
+submitBtn.classList.add('submitBtn');
+submitBtn.textContent = 'Submit';
+submitBtn.type = 'submit';
+btnsDiv.append(submitBtn);
+submitBtn.addEventListener('click', () => getAnswer());
+
+const message = document.createElement('p');
+navigationEl.append(message);
 
 // State
 const state = {
@@ -114,6 +133,11 @@ function generateSudoku() {
     for(key in state)
         state[key].length = 0;
 
+    message.textContent = '';
+    message.classList.remove("validMsg"); 
+    message.classList.remove("invalidMsg"); 
+
+
     // Start with an empty 9x9 grid
     state.grid = Array.from({ length: 9 }, () => Array(9).fill(0)); 
 
@@ -141,6 +165,11 @@ function validInputs(){
     }
     return true;
 }
+
+/**
+ *  Validates the sudoku grid
+ * @returns {boolean} a boolean value.
+ */
 function sudokuIsValid(){
     let validity = true;
     state.answer.forEach((rowEl,row) => {
@@ -172,10 +201,12 @@ function getAnswer(){
         console.log(state)
         // Validate the answer 
         if(sudokuIsValid()){
-            alert("Congratulations! You solved the sudoku puzzle!")
+            message.replaceChildren("Congratulations! You solved the sudoku puzzle!");
+            message.classList.add("validMsg"); 
         }
         else{
-            alert("Invalid solution. Try again!")
+            message.replaceChildren("Invalid solution. Try again!");
+            message.classList.add("invalidMsg");
         }    
     }
 }
@@ -184,24 +215,12 @@ function getAnswer(){
  *  sets the HTML DOM
 */
 function setHtmlContent(){
-    const startBtn = document.createElement('button');
-    startBtn.classList.add('startBtn');
-    startBtn.textContent = 'Start a new puzzle';
-    navigationEl.appendChild(startBtn);
-    startBtn.addEventListener('click', () => generateSudoku());
-
-    const submitBtn = document.createElement('button');
-    submitBtn.classList.add('submitBtn');
-    submitBtn.textContent = 'Submit';
-    submitBtn.type = 'submit';
-    navigationEl.appendChild(submitBtn);
-    submitBtn.addEventListener('click', () => getAnswer());
+    
 }
 /**
  *  initial state
  */
 function init(){
-    setHtmlContent();
     generateSudoku();    
 }
 init();
