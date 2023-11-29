@@ -1,19 +1,13 @@
 // References
-const  EMPTY_CELLS = 51;  
+const  EMPTY_CELLS = 51; 
 const sudokuContainer = document.getElementById('sudoku-container');
 const navigationEl = document.getElementById('navigation');
 
-const submitBtn = document.createElement('button');
-    submitBtn.textContent = 'Submit';
-    submitBtn.type = 'submit';
-    navigationEl.appendChild(submitBtn);
-    submitBtn.addEventListener('click', () => getAnswer());
-
 // State
 const state = {
-    grid: null,
-    puzzle: null,
-    answer: null,
+    grid: [],
+    puzzle: [],
+    answer: [],
 }
 
 /**
@@ -41,11 +35,10 @@ function isValid(grid, row, col, num) {
     }
     return true;
 }
-
 /**
  *  solves the sudoku grid
  * @param {number[][]} grid - a sudoku grid to solve
- * @returns {boolean} a boolean value: true when the grid is solved
+ * @returns {boolean} a boolean value: true if the grid is solved
  */
 function solve(grid) {
     for (let row = 0; row < 9; row++) {
@@ -67,12 +60,16 @@ function solve(grid) {
     }
     return true;
 }
-/**
- *  creates a sudoku puzzle
- */
+////// ------
 function createPuzzle(){
-    // Copy the sudoku grid
-    state.puzzle = [...state.grid];
+    // const puzzle =[];
+    for(let i=0; i<9;i++){
+        const rowEl = []
+        for(let j=0; j<9;j++){
+            rowEl.push(state.grid[i][j]);
+        }
+        state.puzzle.push(rowEl);            
+    }
     // Remove numbers to create the puzzle
     for (let i = 0; i < EMPTY_CELLS; i++) {  
         let row, col;
@@ -84,20 +81,7 @@ function createPuzzle(){
     }
 }
 /**
- *  generates a sudoku puzzle
- */
-function generateSudoku() {
-    // Start with an empty 9x9 grid
-    state.grid = Array.from({ length: 9 }, () => Array(9).fill(0)); 
-
-    // Fill the grid with a valid solution
-    solve(state.grid);
-
-    createPuzzle();
-}
-
-/**
- *  prints a sudoku puzzle
+ *  prints a sudoku puzzle  
  */
 function printPuzzle() {
     const table = document.createElement('table');
@@ -111,17 +95,33 @@ function printPuzzle() {
                 inp.id =`input${i}${j}`
                 inp.min = 1
                 inp.max = 9
-                cell.appendChild(inp)
+                cell.append(inp)
             }
             else
             cell.textContent = state.puzzle[i][j];
-            row.appendChild(cell);
+            row.append(cell);
         }
-        table.appendChild(row);
+        table.append(row);
     }
-    sudokuContainer.appendChild(table);
+    sudokuContainer.replaceChildren(table);
 }
 
+/**
+*  generates a sudoku puzzle
+*/
+function generateSudoku() {
+    // Clear state object
+    for(key in state)
+        state[key].length = 0;
+
+    // Start with an empty 9x9 grid
+    state.grid = Array.from({ length: 9 }, () => Array(9).fill(0)); 
+
+    // Fill the grid with a valid solution
+    solve(state.grid);
+    createPuzzle();  
+    printPuzzle();
+}
 /**
  *  Validates the input values
  * @returns {boolean} a boolean value: true when all the input values are valid
@@ -141,6 +141,19 @@ function validInputs(){
     }
     return true;
 }
+function sudokuIsValid(){
+    let validity = true;
+    state.answer.forEach((rowEl,row) => {
+        rowEl.forEach((colEl, col) => {
+            if(colEl !== state.grid[row][col]){
+                const inputEl = document.getElementById(`input${row}${col}`);
+                inputEl.classList.add('errors');
+                validity &&= false;
+            }
+        });
+    });
+    return validity;
+}
 
 /**
  *  gets the user's answer
@@ -155,15 +168,40 @@ function getAnswer(){
                 }
                 return cell;               
             });
-        });      
+        });
+        console.log(state)
+        // Validate the answer 
+        if(sudokuIsValid()){
+            alert("Congratulations! You solved the sudoku puzzle!")
+        }
+        else{
+            alert("Invalid solution. Try again!")
+        }    
     }
 }
 
 /**
+ *  sets the HTML DOM
+*/
+function setHtmlContent(){
+    const startBtn = document.createElement('button');
+    startBtn.classList.add('startBtn');
+    startBtn.textContent = 'Start a new puzzle';
+    navigationEl.appendChild(startBtn);
+    startBtn.addEventListener('click', () => generateSudoku());
+
+    const submitBtn = document.createElement('button');
+    submitBtn.classList.add('submitBtn');
+    submitBtn.textContent = 'Submit';
+    submitBtn.type = 'submit';
+    navigationEl.appendChild(submitBtn);
+    submitBtn.addEventListener('click', () => getAnswer());
+}
+/**
  *  initial state
  */
 function init(){
-    generateSudoku();
-    printPuzzle();
+    setHtmlContent();
+    generateSudoku();    
 }
 init();
