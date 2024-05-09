@@ -1,5 +1,5 @@
 // References
-const  EMPTY_CELLS = 45; 
+const  EMPTY_CELLS = 45;
 const sudokuContainer = document.getElementById('sudoku-container');
 const navigationEl = document.getElementById('navigation');
 
@@ -211,12 +211,6 @@ function getAnswer(){
     }
 }
 
-/**
- *  sets the HTML DOM
-*/
-function setHtmlContent(){
-    
-}
 /**
  *  initial state
  */

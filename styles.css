@@ -1,77 +1,91 @@
+body {
+    display: flex;
+  }
+  #container {
+    background-color: rgba(230, 230, 230, 0.568);
+    width: 580px;
+    margin: 0 auto; 
+    display: flex;
+    justify-content: space-between;  
+  }
 
-table {
+  table {
+    background-color: white;
     border-collapse: collapse;
-    margin: 20px auto;
-}
-
-td {
+  }
+  
+  td {
     width: 40px;
     height: 40px;
     text-align: center;
     border: 1px solid darkgrey;
-}
-
-td input{
+  }
+  
+  td input {
     /* background-color: blue; */
     border: none;
     width: 90%;
     height: 90%;
     text-align: center;
-}
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-
-td:nth-of-type(3), td:nth-of-type(6){
+  }
+  
+  td:nth-of-type(3),
+  td:nth-of-type(6) {
     border-right: 2px solid;
-}
-tr:nth-of-type(3), tr:nth-of-type(6){
+  }
+  tr:nth-of-type(3),
+  tr:nth-of-type(6) {
     border-bottom: 2px solid;
-}
-#navigation{
-    max-width: 50%; 
-    height: 90px;
-    margin: 20px auto;
-    
-     
+  }
+  #navigation {
     padding: 10px;
-}
-
-.invalidMsg, .validMsg{
-    border: 1px solid;  
-    border-radius: 5px; 
+  }
+  
+  .invalidMsg,
+  .validMsg {
+    width: 150px;
+    margin: 20px auto;
+    border: 1px solid;
+    border-radius: 5px;
     font-size: 20px;
     font-weight: bold;
-    padding: 5px;
     text-align: center;
-}
-.invalidMsg{
-    color: red;
-}
-.validMsg{
-    color: green; 
-}
-#navigation div{
+    padding: 5px;
+  }
+  .invalidMsg {
+    color: darkred;
+  }
+  .validMsg {
+    color: darkgreen;
+  }
+  #navigation div {
     display: flex;
-    justify-content: space-between;  
-}
-.startBtn, .submitBtn{
-    height: 35px;
-    padding: 0.5rem;
+    flex-direction: column;
+    gap: 15px;
+    width: 180px;
+  }
+  .startBtn,
+  .submitBtn {
+    padding: 3px;
     margin: 0 0.5rem;
+    border: 1.5px solid rgba(128, 128, 128, 0.594);
     border-radius: 5px;
-}
-.startBtn{
+  }
+  .startBtn {
     background-color: aquamarine;
-}
-.submitBtn{
-    background-color:lightskyblue;
-}
-.errors{
+  }
+  .submitBtn {
+    background-color: lightskyblue;
+  }
+  .errors {
     background-color: lightcoral;
-}
-input:focus {
+  }
+  input:focus {
     background: none;
-}
+  }
+  
